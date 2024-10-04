@@ -25,8 +25,7 @@ private class testUpdateAccountCA {
             AccountId = acc1.Id,
             Status = 'Draft',
             StartDate = Date.today(),
-            ContractTerm = 12,
-            ContractNumber = null
+            ContractTerm = 12
         );
         insert con;
 
