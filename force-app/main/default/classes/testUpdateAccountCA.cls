@@ -25,7 +25,8 @@ private class testUpdateAccountCA {
             AccountId = acc1.Id,
             Status = 'Draft',
             StartDate = Date.today(),
-            ContractTerm = 12
+            ContractTerm = 12,
+            ContractNumber = null
         );
         insert con;
 
@@ -34,7 +35,8 @@ private class testUpdateAccountCA {
             AccountId = acc1.Id,
             EffectiveDate = Date.today(),
             Status = 'Draft',
-            ContractId = con.Id
+            ContractId = con.Id,
+            Pricebook2Id = Test.getStandardPricebookId()  // Assign the standard price book to the Order
         );
         insert o1;
 
