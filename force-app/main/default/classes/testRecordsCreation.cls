@@ -1,5 +1,5 @@
 @isTest
-private class testUpdateAccountCA {
+private class testRecordsCreation {
     @isTest static void test() {
         Test.startTest();  // Start test block to handle governor limits
 
