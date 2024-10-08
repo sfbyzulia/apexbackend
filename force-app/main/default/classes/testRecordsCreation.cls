@@ -46,6 +46,21 @@ private class testRecordsCreation {
         OrderItem oi2 = new OrderItem(OrderId = o1.Id, PricebookEntryId = pbe.Id, Quantity = 20, UnitPrice = 1000);
         insert oi2;
 
+        // Update the Order to 'Activated' status for the batch class
+        o1.Status = 'Activated';
+        update o1;
+
+        System.debug('Order Status: ' + o1.Status);  // Debug to ensure status update is correct
+
+        // Execute the batch class
+        UpdateAccounts batch = new UpdateAccounts();
+        ID batchId = Database.executeBatch(batch);
+
         Test.stopTest();  // End test block to finalize governor limits
+
+        // Verify that the account's revenue is updated
+        Account accAfter = [SELECT Chiffre_d_affaire__c FROM Account WHERE Id = :acc1.Id];
+        System.debug('Account Revenue: ' + accAfter.Chiffre_d_affaire__c);  // Debug to verify revenue update
+        System.assertEquals(12500, accAfter.Chiffre_d_affaire__c, 'The account revenue should be updated based on the order items');
     }
 }

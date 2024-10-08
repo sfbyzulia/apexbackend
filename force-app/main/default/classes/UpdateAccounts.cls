@@ -1,13 +1,13 @@
 global class UpdateAccounts implements Database.Batchable<sObject>{
     
    global Database.QueryLocator start(Database.BatchableContext info){ 
-       //Requeter seulement les comptes qui ont au moins une commande avec le Status 'Ordered'
-       return Database.getQueryLocator('SELECT Id FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE Status = \'Ordered\')');
+       //Requeter seulement les comptes qui ont au moins une commande avec le Status 'Activated'
+       return Database.getQueryLocator('SELECT Id FROM Account WHERE Id IN (SELECT AccountId FROM Order WHERE Status = \'Activated\')');
    }
     
    global void execute(Database.BatchableContext info, List<Account> scope){      
     Map<Id, Decimal> accountRevenueMap = new Map<Id, Decimal>();
-    List<Order> orders = [SELECT AccountId, TotalAmount FROM Order WHERE AccountId IN :scope AND Status = 'Ordered'];
+    List<Order> orders = [SELECT AccountId, TotalAmount FROM Order WHERE AccountId IN :scope AND Status = 'Activated'];
 
     // Calculer le chiffre d'affaires pour chaque compte
     for (Order ord : orders) {
