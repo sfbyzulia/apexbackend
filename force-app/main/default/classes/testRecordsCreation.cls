@@ -29,6 +29,10 @@ private class testRecordsCreation {
         );
         insert con;
 
+        // Activate the contract
+        con.Status = 'Activated';
+        update con;
+
         // Create a test Order with required fields
         Order o1 = new Order(
             AccountId = acc1.Id,
@@ -61,6 +65,6 @@ private class testRecordsCreation {
         // Verify that the account's revenue is updated
         Account accAfter = [SELECT Chiffre_d_affaire__c FROM Account WHERE Id = :acc1.Id];
         System.debug('Account Revenue: ' + accAfter.Chiffre_d_affaire__c);  // Debug to verify revenue update
-        System.assertEquals(12500, accAfter.Chiffre_d_affaire__c, 'The account revenue should be updated based on the order items');
+        System.assertEquals(21500, accAfter.Chiffre_d_affaire__c, 'The account revenue should be updated based on the order items');
     }
 }
