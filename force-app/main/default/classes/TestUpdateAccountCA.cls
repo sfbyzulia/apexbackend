@@ -41,7 +41,8 @@ private class TestUpdateAccountCA {
                 EffectiveDate = Date.today(),
                 Status = 'Draft',
                 ContractId = con.Id,
-                Pricebook2Id = Test.getStandardPricebookId()  // Assign the standard price book to the Order
+                Pricebook2Id = Test.getStandardPricebookId(),
+                ShipmentCost__c = 100 // Add shipment cost for each order
             );
             orders.add(ord);
         }
@@ -74,5 +75,10 @@ private class TestUpdateAccountCA {
         // Calculate expected revenue based on 100 orders (each order with two items: 10 * 150 and 20 * 1000)
         Decimal expectedRevenue = 100 * (10 * 150 + 20 * 1000);
         System.assertEquals(expectedRevenue, accAfter.Chiffre_d_affaire__c, 'The account revenue should be updated correctly for 100 orders');
+
+        // Verify that the NetAmount is calculated correctly for one of the orders
+        Order ordAfter = [SELECT NetAmount__c FROM Order WHERE Id = :orders[0].Id];
+        Decimal expectedNetAmount = (10 * 150 + 20 * 1000) - 100;  // TotalAmount - ShipmentCost
+        System.assertEquals(expectedNetAmount, ordAfter.NetAmount__c, 'NetAmount should be correctly calculated as TotalAmount - ShipmentCost');
     }
 }
