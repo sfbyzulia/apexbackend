@@ -1,9 +1,9 @@
 public without sharing class MyTeamOrdersController {
-    public decimal SumOders{
+    public decimal SumOrders{
         get{
-			AggregateResult groupedResults = [SELECT SUM(TotalAmount) total FROM Order];
-			return (decimal)groupedResults.get('total');
-
+            // Assuming there's a User field or custom logic to group orders by team
+            AggregateResult groupedResults = [SELECT SUM(TotalAmount) total FROM Order WHERE OwnerId = :UserInfo.getUserId()];
+            return (decimal)groupedResults.get('total');
         }
         set;
     }
